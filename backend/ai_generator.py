@@ -83,7 +83,7 @@ Provide only the direct answer to what was asked.
             return self._handle_tool_execution(response, api_params, tool_manager)
         
         # Return direct response
-        return response.content[0].text
+        return self._extract_text(response)
     
     def _handle_tool_execution(self, initial_response, base_params: Dict[str, Any], tool_manager):
         """
@@ -122,13 +122,25 @@ Provide only the direct answer to what was asked.
         if tool_results:
             messages.append({"role": "user", "content": tool_results})
         
-        # Prepare final API call without tools
+        # Prepare final API call. Keep the same tools as the first call: the
+        # assistant turn above may contain thinking blocks that the API binds
+        # to the original tools list, and dropping tools makes it reject them.
         final_params = {
             **self.base_params,
             "messages": messages,
             "system": base_params["system"]
         }
+        if "tools" in base_params:
+            final_params["tools"] = base_params["tools"]
+            final_params["tool_choice"] = base_params["tool_choice"]
         
         # Get final response
         final_response = self.client.messages.create(**final_params)
-        return final_response.content[0].text
+        return self._extract_text(final_response)
+
+    @staticmethod
+    def _extract_text(response) -> str:
+        """Join the text blocks of a response, skipping thinking/tool_use blocks."""
+        return "".join(
+            block.text for block in response.content if block.type == "text"
+        ).strip()

@@ -6,8 +6,9 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
+    <meta name="color-scheme" content="dark">
     <title>Course Materials Assistant</title>
-    <link rel="stylesheet" href="style.css?v=9">
+    <link rel="stylesheet" href="style.css?v=10">
 </head>
 <body>
     <div class="container">
@@ -19,6 +20,7 @@
         <div class="main-content">
             <!-- Left Sidebar -->
             <aside class="sidebar">
+                <div class="sidebar-content">
                 <!-- Course Stats -->
                 <div class="sidebar-section">
                     <details class="stats-collapsible">
@@ -49,6 +51,18 @@
                         </div>
                     </details>
                 </div>
+                </div>
+
+                <!-- New Chat -->
+                <div class="sidebar-footer">
+                    <button id="newChatButton" class="new-chat-button" type="button">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        New
+                    </button>
+                </div>
             </aside>
 
             <!-- Main Chat Area -->
@@ -76,6 +90,6 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="script.js?v=9"></script>
+    <script src="script.js?v=10"></script>
 </body>
 </html>

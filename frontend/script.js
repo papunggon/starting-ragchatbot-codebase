@@ -5,7 +5,7 @@ const API_URL = '/api';
 let currentSessionId = null;
 
 // DOM elements
-let chatMessages, chatInput, sendButton, totalCourses, courseTitles;
+let chatMessages, chatInput, sendButton, newChatButton, totalCourses, courseTitles;
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     chatMessages = document.getElementById('chatMessages');
     chatInput = document.getElementById('chatInput');
     sendButton = document.getElementById('sendButton');
+    newChatButton = document.getElementById('newChatButton');
     totalCourses = document.getElementById('totalCourses');
     courseTitles = document.getElementById('courseTitles');
     
@@ -27,6 +28,13 @@ function setupEventListeners() {
     sendButton.addEventListener('click', sendMessage);
     chatInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') sendMessage();
+    });
+
+    // New chat: clear conversation and start a fresh session
+    newChatButton.addEventListener('click', () => {
+        createNewSession();
+        chatInput.value = '';
+        chatInput.focus();
     });
     
     
@@ -50,6 +58,7 @@ async function sendMessage() {
     chatInput.value = '';
     chatInput.disabled = true;
     sendButton.disabled = true;
+    newChatButton.disabled = true;
 
     // Add user message
     addMessage(query, 'user');
@@ -91,6 +100,7 @@ async function sendMessage() {
     } finally {
         chatInput.disabled = false;
         sendButton.disabled = false;
+        newChatButton.disabled = false;
         chatInput.focus();
     }
 }
